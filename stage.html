@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PCTO Presentation | Glow Edition</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root {
+  --accent: #00f2ff;
+  --accent-glow: rgba(0, 242, 255, 0.6);
+  --accent-dark: #006d75;
+  --bg-dark: #010a13;
+  --bg-darker: #00070d;
+  --glass: rgba(255, 255, 255, 0.03); 
+  --glass-border: rgba(0, 242, 255, 0.2);
+  --glow: 0 0 15px rgba(0, 242, 255, 0.4);
+  --glow-strong: 0 0 25px rgba(0, 242, 255, 0.7);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: var(--bg-dark);
+  color: #ffffff;
+  overflow-x: hidden;
+  height: 100vh;
+}
+
+#canvas-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+}
+
+/* NAVBAR CON GLOW */
+nav {
+  position: fixed;
+  top: 30px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; gap: 8px;
+  padding: 6px;
+  background: rgba(1, 10, 19, 0.85);
+  border: 1px solid var(--glass-border);
+  border-radius: 100px;
+  backdrop-filter: blur(20px);
+  z-index: 1000;
+  box-shadow: var(--glow);
+  transition: all 0.4s ease;
+}
+
+nav:hover {
+  box-shadow: var(--glow-strong);
+  transform: translateX(-50%) scale(1.02);
+}
+
+nav button {
+  background: none; border: none;
+  color: rgba(255,255,255,0.5);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.7rem; letter-spacing: 1px;
+  padding: 10px 22px; border-radius: 100px;
+  cursor: pointer; transition: 0.4s;
+  position: relative;
+  overflow: hidden;
+}
+
+nav button::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+nav button:hover, nav button.active-btn {
+  color: #fff;
+  background: rgba(0, 242, 255, 0.08);
+  text-shadow: 0 0 8px var(--accent);
+}
+
+nav button:hover::after, nav button.active-btn::after {
+  width: 70%;
+}
+
+/* SECTIONS */
+section {
+  position: absolute;
+  inset: 0;
+  padding: 110px 8% 40px;
+  display: flex; flex-direction: column;
+  visibility: hidden; opacity: 0;
+  transition: 0.6s ease-in-out;
+  overflow-y: auto;
+}
+
+section.active { 
+  visibility: visible; opacity: 1; 
+}
+
+/* HEADER ANIMATO */
+.page-header {
+  text-align: center;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.page-header::after {
+  content: '';
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+}
+
+/* GLASS CARD CON GLOW DINAMICO */
+.glass-card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 25px;
+  backdrop-filter: blur(25px);
+  position: relative;
+  transition: 0.4s ease;
+  overflow: hidden;
+}
+
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 242, 255, 0.1), transparent);
+  transition: 0.6s;
+}
+
+.glass-card:hover::before {
+  left: 100%;
+}
+
+.glass-card:hover {
+  border-color: var(--accent);
+  box-shadow: var(--glow);
+  transform: translateY(-5px);
+}
+
+.glass-card h3 {
+  color: var(--accent);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+  text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+}
+
+/* TITOLI CON ANIMAZIONE */
+h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 3.2rem; text-align: center;
+  letter-spacing: 10px;
+  color: #fff;
+  text-shadow: 0 0 20px var(--accent);
+  margin-bottom: 5px;
+  position: relative;
+  animation: titleGlow 3s infinite alternate;
+}
+
+@keyframes titleGlow {
+  0% { text-shadow: 0 0 20px var(--accent); }
+  100% { text-shadow: 0 0 30px var(--accent), 0 0 40px var(--accent-glow); }
+}
+
+.subtitle {
+  text-align: center; 
+  color: var(--accent);
+  font-family: 'Orbitron'; 
+  font-size: 0.8rem;
+  letter-spacing: 5px; 
+  margin-bottom: 10px;
+  opacity: 0.9;
+}
+
+.year-badge {
+  display: inline-block;
+  background: rgba(0, 242, 255, 0.1);
+  border: 1px solid var(--accent);
+  border-radius: 30px;
+  padding: 5px 15px;
+  font-family: 'Orbitron';
+  font-size: 0.7rem;
+  color: var(--accent);
+  margin-top: 5px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(0, 242, 255, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(0, 242, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 242, 255, 0); }
+}
+
+/* STILI PER LE IMMAGINI */
+.photo-wrapper {
+  border: 1px solid var(--glass-border);
+  padding: 5px; 
+  border-radius: 15px;
+  background: rgba(0, 242, 255, 0.02);
+  overflow: hidden;
+  transition: all 0.4s ease;
+}
+
+.photo-wrapper:hover {
+  border-color: var(--accent);
+  transform: scale(1.01);
+  box-shadow: var(--glow);
+}
+
+.photo-box {
+  width: 100%; 
+  height: 200px;
+  background: rgba(255,255,255,0.05); 
+  border-radius: 10px;
+  overflow: hidden; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  color: var(--accent); 
+  font-family: 'Orbitron'; 
+  font-size: 0.7rem;
+  border: 1px solid rgba(255,255,255,0.1);
+  position: relative;
+}
+
+.photo-box::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, transparent 30%, rgba(0, 242, 255, 0.05) 50%, transparent 70%);
+  transform: translateX(-100%);
+  transition: transform 0.6s;
+}
+
+.photo-wrapper:hover .photo-box::after {
+  transform: translateX(100%);
+}
+
+/* STILI PER TUTTE LE IMMAGINI */
+.content-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.photo-wrapper:hover .content-image {
+  transform: scale(1.05);
+}
+
+/* LOGO CONTAINER STYLES */
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.logo-label {
+  font-family: 'Orbitron';
+  font-size: 0.7rem;
+  color: var(--accent);
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+}
+
+.logo-placeholder {
+  width: 100%;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 2px dashed rgba(0, 242, 255, 0.3);
+  color: rgba(0, 242, 255, 0.5);
+  font-family: 'Orbitron';
+  font-size: 0.8rem;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.logo-placeholder:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(0, 242, 255, 0.05);
+}
+
+/* STILI SPECIFICI PER I LOGO */
+.logo-image {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+  padding: 5px;
+}
+
+.school-logo {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.company-logo {
+  background:  rgba(255, 255, 255, 0.9);
+}
+
+/* INTRO PAGE RIVISTA */
+.intro-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto auto;
+  gap: 25px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.intro-header {
+  grid-column: 1 / 3;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.intro-info { 
+  grid-column: 1 / 2; 
+  grid-row: 2 / 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.intro-logos { 
+  grid-column: 2 / 3; 
+  grid-row: 2 / 3;
+  display: flex; 
+  flex-direction: column;
+  gap: 20px;
+}
+
+.intro-main-photo { 
+  grid-column: 1 / 3; 
+  grid-row: 3 / 4;
+}
+
+/* STUDENT INFO STYLING */
+.student-info {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.info-icon {
+  color: var(--accent);
+  font-size: 1.1rem;
+  width: 24px;
+  text-align: center;
+}
+
+.info-label {
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  min-width: 100px;
+}
+
+.info-value {
+  color: #fff;
+  font-weight: 500;
+}
+
+.student-name {
+  font-size: 1.4rem;
+  color: var(--accent);
+  font-family: 'Orbitron';
+  letter-spacing: 2px;
+  margin-bottom: 5px;
+  text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+}
+
+.status-badge {
+  display: inline-block;
+  background: linear-gradient(90deg, var(--accent-dark), var(--accent));
+  color: #000;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-family: 'Orbitron';
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-top: 5px;
+  animation: statusPulse 2s infinite alternate;
+}
+
+@keyframes statusPulse {
+  0% { opacity: 0.9; transform: scale(1); }
+  100% { opacity: 1; transform: scale(1.03); }
+}
+
+/* CONTENT GRID PER ALTRE SEZIONI */
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px; 
+  max-width: 1200px; 
+  margin: 0 auto;
+}
+
+/* ANIMAZIONI CARDS */
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(30px) scale(0.95); filter: blur(10px); }
+  to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+section.active .glass-card { 
+  animation: slideIn 0.7s ease-out forwards; 
+  animation-delay: calc(var(--card-order) * 0.1s);
+}
+
+/* FLOATING ELEMENTS */
+.floating {
+  animation: floating 6s ease-in-out infinite;
+}
+
+@keyframes floating {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+/* PLACEHOLDER PER IMMAGINI MANCANTI */
+.image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.3);
+  font-family: 'Poppins';
+  text-align: center;
+  padding: 20px;
+}
+
+.image-placeholder i {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  color: rgba(0, 242, 255, 0.3);
+}
+
+/* SKILL BARS STYLES */
+.skill-item {
+  margin-bottom: 15px;
+}
+
+.skill-bar {
+  width: 100%;
+  height: 8px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 5px;
+}
+
+.skill-level {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-dark), var(--accent));
+  border-radius: 4px;
+  transition: width 1.5s ease-out;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .intro-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto;
+  }
+  
+  .intro-header { grid-column: 1 / 2; }
+  .intro-info { grid-column: 1 / 2; grid-row: 2 / 3; }
+  .intro-logos { grid-column: 1 / 2; grid-row: 3 / 4; }
+  .intro-main-photo { grid-column: 1 / 2; grid-row: 4 / 5; }
+  
+  h1 {
+    font-size: 2.5rem;
+    letter-spacing: 8px;
+  }
+  
+  nav {
+    padding: 5px;
+    gap: 5px;
+  }
+  
+  nav button {
+    padding: 8px 16px;
+    font-size: 0.65rem;
+  }
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2rem;
+    letter-spacing: 5px;
+  }
+  
+  .intro-layout {
+    gap: 20px;
+  }
+  
+  section {
+    padding: 100px 5% 30px;
+  }
+}
+
+/* SCROLLBAR STYLING */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(1, 10, 19, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 242, 255, 0.3);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 242, 255, 0.5);
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="canvas-bg"></canvas>
+
+<nav>
+  <button onclick="go('home')" class="active-btn">INTRO</button>
+  <button onclick="go('azienda')">AZIENDA</button>
+  <button onclick="go('attivita')">PCTO</button>
+  <button onclick="go('crescita')">SKILLS</button>
+  <button onclick="go('conclusioni')">EXIT</button>
+</nav>
+
+<section id="home" class="active">
+  <div class="page-header">
+    <h1>STAGE 2025</h1>
+    <div class="subtitle">PCTO</div>
+    <div class="year-badge">EXPERIENCE</div>
+  </div>
+
+  <div class="intro-layout">
+    <div class="glass-card intro-info" style="--card-order: 1;">
+      <h3><i class="fas fa-id-card"></i> IDENTITÀ DIGITALE</h3>
+      <div class="student-info">
+        <div class="student-name">Maico Menozzi</div>
+        <div class="info-row">
+          <div class="info-icon"><i class="fas fa-user-graduate"></i></div>
+          <div class="info-label">Studente:</div>
+          <div class="info-value">5° Informatica</div>
+        </div>
+        <div class="info-row">
+          <div class="info-icon"><i class="fas fa-building"></i></div>
+          <div class="info-label">Istituto:</div>
+          <div class="info-value">ITIS Luigi Einaudi</div>
+        </div>
+        <div class="info-row">
+          <div class="info-icon"><i class="fas fa-calendar-alt"></i></div>
+          <div class="info-label">Periodo:</div>
+          <div class="info-value">01/09/2025 - 19/09/2025</div>
+        </div>
+        <div class="info-row">
+          <div class="info-icon"><i class="fas fa-clock"></i></div>
+          <div class="info-label">Ore totali:</div>
+          <div class="info-value">150 ore</div>
+        </div>
+        <div class="status-badge floating">PERCORSO COMPLETATO</div>
+      </div>
+    </div>
+
+    <div class="glass-card intro-logos" style="--card-order: 2;">
+      <!-- SOSTITUIRE CON LOGO SCUOLA REALE: logo_scuola.png -->
+      <div class="logo-container">
+        <div class="logo-label">ISTITUTO SCOLASTICO</div>
+        <div class="logo-placeholder school-logo">
+          <img src="LOGOSCUOLA.png" alt="Logo scuola" class="logo-image">
+        </div>
+      </div>
+      
+      <!-- SOSTITUIRE CON LOGO AZIENDA REALE: logo_azienda.png -->
+      <div class="logo-container">
+        <div class="logo-label">AZIENDA OSPITANTE</div>
+        <div class="logo-placeholder company-logo">
+          <img src="LOGO_CA.png" alt="Logo azienda" class="logo-image">
+        </div>
+      </div>
+    </div>
+
+    <div class="glass-card intro-main-photo" style="--card-order: 3;">
+  <h3><i class="fas fa-map-marker-alt"></i> HEADQUARTER</h3>
+  <div class="photo-wrapper">
+    <div class="photo-box" style="height: 350px;">
+      <iframe 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5657.679430493223!2d10.724680476106917!3d44.845197471070556!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4780209171af22cb%3A0xe5d13bab4f50ae58!2sCA%20Sistemi%20snc!5e0!3m2!1sit!2sit!4v1769847976335!5m2!1sit!2sit"  style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+        width="100%" 
+        height="100%" 
+        style="border:0; border-radius: 8px;" 
+        allowfullscreen="" 
+        loading="lazy">
+      </iframe>
+      <div style="position: absolute; bottom: 10px; left: 10px; background: rgba(0,0,0,0.7); padding: 5px 10px; border-radius: 5px; font-size: 0.7rem;">
+        <i class="fas fa-map-marked-alt"></i> Google Maps
+      </div>
+    </div>
+  </div>
+  <p style="margin-top:15px; text-align:center; color:rgba(255,255,255,0.6); font-family: 'Orbitron'; letter-spacing: 1px;">
+    <i class="fas fa-map-pin" style="color: var(--accent);"></i> Tech Innovators S.r.l. - Novellara (RE)
+  </p>
+</div>
+  </div>
+</section>
+
+<section id="azienda">
+  <div class="page-header">
+    <h1>AZIENDA</h1>
+    <div class="subtitle">Contesto lavorativo</div>
+  </div>
+  <div class="content-grid">
+    <div class="glass-card" style="--card-order: 1;">
+      <h3><i class="fas fa-industry"></i> Identità Aziendale</h3>
+      <p><strong>Settore:</strong> Information Technology</p>
+      <p><strong>Specializzazione:</strong>Assistenza e Gestione IT</p>
+      <p>L'azienda opera nel settore dell'Industria 5.0 fornendo soluzioni l'automazione industriale</p>
+      <p style="margin-top: 15px; color: var(--accent); font-size: 0.9rem;">
+        <i class="fas fa-users"></i> Team: 6 dipendenti<br>
+        <i class="fas fa-calendar"></i> Fondazione: 2003
+      </p>
+    </div>
+    <div class="glass-card" style="--card-order: 2;">
+      <h3><i class="fas fa-building"></i> Asset Sede</h3>
+      <div class="photo-wrapper">
+        <div class="photo-box">
+          <!-- SOSTITUIRE CON FOTO SEDE REALE: sede_azienda.jpg -->
+          <img src="asset.png" alt="Sede azienda" class="content-image">
+          <div style="position: absolute; bottom: 10px; left: 10px; background: rgba(0,0,0,0.7); padding: 5px 10px; border-radius: 5px; font-size: 0.7rem;">
+            <i class="fas fa-building"></i> Sede centrale
+          </div>
+        </div>
+      </div>
+      <p style="margin-top:10px; font-size:0.8rem; text-align:center;">
+        
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="attivita">
+  <div class="page-header">
+    <h1>ATTIVITÀ</h1>
+    <div class="subtitle">150 ore di stage</div>
+  </div>
+  <div class="content-grid">
+    <div class="glass-card" style="--card-order: 1;">
+      <h3><i class="fas fa-tasks"></i> Task Report</h3>
+      <ul style="margin-top:10px; padding-left:20px;">
+        <li>Sviluppo strumeno bilancio economico</li>
+      </ul>
+      <div style="margin-top: 20px; padding: 10px; background: rgba(0,242,255,0.05); border-radius: 10px;">
+        <p style="color: var(--accent); font-size: 0.9rem;">
+          <i class="fas fa-code"></i> Tecnologie utilizzate:<br>
+          Power BI, MySQL
+        </p>
+      </div>
+    </div>
+    <div class="glass-card" style="--card-order: 2;">
+      <h3><i class="fas fa-laptop-code"></i> Operatività in sede</h3>
+      <div class="photo-wrapper">
+        <div class="photo-box">
+          <!-- SOSTITUIRE CON FOTO ATTIVITÀ REALE: attivita_stage.jpg -->
+          <img src="postaz.jpeg" alt="Attività stage" class="content-image">
+          <div style="position: absolute; bottom: 10px; left: 10px; background: rgba(0,0,0,0.7); padding: 5px 10px; border-radius: 5px; font-size: 0.7rem;">
+            <i class="fas fa-desktop"></i> Postazione di lavoro
+          </div>
+        </div>
+      </div>
+      <p style="margin-top:10px; font-size:0.8rem;">
+        Ambiente di lavoro moderno con postazione dedicata e strumentazione professionale.
+      </p>
+    </div>
+    <div class="glass-card" style="--card-order: 3;">
+      <h3><i class="fas fa-tools"></i> Strumentazione utilizzata</h3>
+      <div class="photo-wrapper">
+        <div class="photo-box">
+          <!-- SOSTITUIRE CON FOTO STRUMENTI REALE: strumenti_tecnici.jpg -->
+          <img src="powerbi.png" alt="Strumenti tecnici" class="content-image">
+          <div style="position: absolute; bottom: 10px; left: 10px; background: rgba(0,0,0,0.7); padding: 5px 10px; border-radius: 5px; font-size: 0.7rem;">
+            <i class="fas fa-toolbox"></i> Attrezzatura tecnica
+          </div>
+        </div>
+      </div>
+      <p style="margin-top:10px; font-size:0.8rem;">
+        Strumenti di testing, dispositivi IoT, server di sviluppo e workstation specializzate.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="crescita">
+  <div class="page-header">
+    <h1>SKILLS</h1>
+    <div class="subtitle">Competenze acquisite</div>
+  </div>
+  <div class="content-grid">
+    <div class="glass-card" style="--card-order: 1;">
+      <h3><i class="fas fa-cogs"></i> Hard Skills</h3>
+      <div class="skill-item">
+        <p style="color:var(--accent); margin-bottom: 8px;">
+          <i class="fas fa-code"></i> Sviluppo Software
+        </p>
+        <div class="skill-bar">
+          <div class="skill-level" style="width: 85%;"></div>
+        </div>
+      </div>
+      <div class="skill-item">
+        <p style="color:var(--accent); margin-bottom: 8px;">
+          <i class="fas fa-network-wired"></i> Networking
+        </p>
+        <div class="skill-bar">
+          <div class="skill-level" style="width: 75%;"></div>
+        </div>
+      </div>
+      <div class="skill-item">
+        <p style="color:var(--accent); margin-bottom: 8px;">
+          <i class="fas fa-bug"></i> Troubleshooting
+        </p>
+        <div class="skill-bar">
+          <div class="skill-level" style="width: 80%;"></div>
+        </div>
+      </div>
+      <div class="skill-item">
+        <p style="color:var(--accent); margin-bottom: 8px;">
+          <i class="fas fa-database"></i> Database Management
+        </p>
+        <div class="skill-bar">
+          <div class="skill-level" style="width: 70%;"></div>
+        </div>
+      </div>
+    </div>
+    <div class="glass-card" style="--card-order: 2;">
+      <h3><i class="fas fa-users"></i> Soft Skills</h3>
+      <div class="skill-item">
+        <p style="color:var(--accent); margin-bottom: 8px;">
+          <i class="fas fa-handshake"></i> Team Working
+        </p>
+        <div class="skill-bar">
+          <div class="skill-level" style="width: 90%;"></div>
+        </div>
+      </div>
+      <div class="skill-item">
+        <p style="color:var(--accent); margin-bottom: 8px;">
+          <i class="fas fa-lightbulb"></i> Problem Solving
+        </p>
+        <div class="skill-bar">
+          <div class="skill-level" style="width: 85%;"></div>
+        </div>
+      </div>
+      <div class="skill-item">
+        <p style="color:var(--accent); margin-bottom: 8px;">
+          <i class="fas fa-clock"></i> Gestione Tempo
+        </p>
+        <div class="skill-bar">
+          <div class="skill-level" style="width: 80%;"></div>
+        </div>
+      </div>
+      <div class="skill-item">
+        <p style="color:var(--accent); margin-bottom: 8px;">
+          <i class="fas fa-comments"></i> Comunicazione
+        </p>
+        <div class="skill-bar">
+          <div class="skill-level" style="width: 75%;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="conclusioni">
+  <div class="page-header">
+    <h1>FINALE</h1>
+    <div class="subtitle">Riflessioni e valutazioni</div>
+  </div>
+  <div class="content-grid">
+    <div class="glass-card" style="--card-order: 1;">
+      <h3><i class="fas fa-chart-line"></i> Valutazione Esperienza</h3>
+      <p>Esperienza positiva </p>
+      
+      <div style="margin-top: 20px;">
+        <p style="color: var(--accent); margin-bottom: 10px;">
+          <i class="fas fa-plus-circle"></i> Punti di forza:
+        </p>
+        <ul style="padding-left: 20px; margin-bottom: 20px;">
+          <li>Applicazione competenze teoriche</li>
+          <li>Supporto dal tutor aziendale</li>
+        </ul>
+        
+        <p style="color: var(--accent); margin-bottom: 10px;">
+          <i class="fas fa-graduation-cap"></i> Crescita personale:
+        </p>
+        <ul style="padding-left: 20px;">
+          <li>Autonomia</li>
+          <li>Comprensione del contesto aziendali</li>
+        </ul>
+      </div>
+    </div>
+    <div class="glass-card" style="--card-order: 2;">
+      <h3><i class="fas fa-images"></i> Momento conclusivo</h3>
+      <div class="photo-wrapper">
+        <div class="photo-box" style="height: 250px;">
+          <!-- SOSTITUIRE CON FOTO CONCLUSIVA REALE: conclusione_stage.jpg -->
+          <img src="forno.jpg" alt="Conclusione stage" class="content-image">
+          <div style="position: absolute; bottom: 10px; left: 10px; background: rgba(0,0,0,0.7); padding: 5px 10px; border-radius: 5px; font-size: 0.7rem;">
+            <i class="fas fa-award"></i> Vantaggio
+          </div>
+        </div>
+      </div>
+      <div style="margin-top: 15px; text-align: center;">
+        <p style="margin-top: 10px; font-size: 0.8rem;">
+          Consiglio questa esperienza
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+// Gestione navigazione
+function go(id){
+  document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+  document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active-btn"));
+  document.getElementById(id).classList.add("active");
+  if(event) event.currentTarget.classList.add("active-btn");
+  
+  // Anima le skill bars quando si entra nella sezione SKILLS
+  if (id === 'crescita') {
+    setTimeout(() => {
+      const skillLevels = document.querySelectorAll('.skill-level');
+      skillLevels.forEach(level => {
+        const width = level.style.width;
+        level.style.width = '0%';
+        setTimeout(() => {
+          level.style.width = width;
+        }, 100);
+      });
+    }, 300);
+  }
+}
+
+// Inizializza le animazioni delle card
+document.addEventListener('DOMContentLoaded', () => {
+  const sections = document.querySelectorAll('section');
+  sections.forEach(section => {
+    const cards = section.querySelectorAll('.glass-card');
+    cards.forEach((card, index) => {
+      card.style.setProperty('--card-order', index);
+    });
+  });
+});
+
+/* SFONDO PARTICELLE MIGLIORATO - COMPLETO */
+const canvas = document.getElementById("canvas-bg");
+const ctx = canvas.getContext("2d");
+let particles = [];
+let mouse = { x: null, y: null, radius: 150 };
+let animationId;
+let time = 0;
+
+function resize(){ 
+  canvas.width = innerWidth; 
+  canvas.height = innerHeight; 
+}
+window.addEventListener("resize", resize);
+resize();
+
+class Particle{
+  constructor(){
+    this.reset();
+    this.baseSize = Math.random() * 2 + 0.5;
+  }
+  
+  reset(){
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.r = this.baseSize;
+    this.vx = Math.random() * 0.5 - 0.25;
+    this.vy = Math.random() * 0.5 - 0.25;
+    this.o = Math.random() * 0.5 + 0.1;
+    this.color = `rgba(0,242,255,${this.o})`;
+    this.pulseSpeed = Math.random() * 0.02 + 0.01;
+    this.pulseOffset = Math.random() * Math.PI * 2;
+  }
+  
+  update(time){
+    this.x += this.vx;
+    this.y += this.vy;
+    
+    // Effetto pulsazione
+    this.r = this.baseSize + Math.sin(time * this.pulseSpeed + this.pulseOffset) * 0.5;
+    
+    // Interazione con mouse
+    if (mouse.x !== null && mouse.y !== null) {
+      const dx = mouse.x - this.x;
+      const dy = mouse.y - this.y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      
+      if (distance < mouse.radius) {
+        const angle = Math.atan2(dy, dx);
+        const force = (mouse.radius - distance) / mouse.radius;
+        this.x -= Math.cos(angle) * force * 2;
+        this.y -= Math.sin(angle) * force * 2;
+      }
+    }
+    
+    // Riappare dall'altro lato
+    if (this.x < -10) this.x = canvas.width + 10;
+    if (this.x > canvas.width + 10) this.x = -10;
+    if (this.y < -10) this.y = canvas.height + 10;
+    if (this.y > canvas.height + 10) this.y = -10;
+  }
+  
+  draw(){
+    // Bagliore esterno
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.r * 2, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(0,242,255,${this.o * 0.3})`;
+    ctx.fill();
+    
+    // Particella principale
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+    ctx.fillStyle = this.color;
+    ctx.fill();
+  }
+}
+
+// Inizializza le particelle
+for(let i = 0; i < 200; i++) {
+  particles.push(new Particle());
+}
+
+// Gestione interazione mouse
+canvas.addEventListener('mousemove', (e) => {
+  mouse.x = e.x;
+  mouse.y = e.y;
+});
+
+canvas.addEventListener('mouseleave', () => {
+  mouse.x = null;
+  mouse.y = null;
+});
+
+// Funzione di animazione principale
+function animate(){
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+  // Sfondo sfumato
+  const gradient = ctx.createRadialGradient(
+    canvas.width / 2, canvas.height / 2, 0,
+    canvas.width / 2, canvas.height / 2, canvas.width
+  );
+  gradient.addColorStop(0, 'rgba(1, 10, 19, 0.1)');
+  gradient.addColorStop(1, 'rgba(1, 10, 19, 0.8)');
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  
+  time += 0.05;
+  
+  // Aggiorna e disegna tutte le particelle
+  particles.forEach(p => {
+    p.update(time);
+    p.draw();
+  });
+  
+  // Connessioni tra particelle vicine
+  ctx.strokeStyle = 'rgba(0, 242, 255, 0.05)';
+  ctx.lineWidth = 0.5;
+  
+  for(let i = 0; i < particles.length; i++) {
+    for(let j = i + 1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      
+      if (distance < 100) {
+        const opacity = 0.1 * (1 - distance / 100);
+        ctx.strokeStyle = `rgba(0, 242, 255, ${opacity})`;
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.stroke();
+      }
+    }
+  }
+  
+  // Se il mouse è vicino, disegna un'area di interazione
+  if (mouse.x !== null && mouse.y !== null) {
+    ctx.beginPath();
+    ctx.arc(mouse.x, mouse.y, mouse.radius, 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(0, 242, 255, 0.1)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+  
+  animationId = requestAnimationFrame(animate);
+}
+
+// Inizia l'animazione
+animate();
+
+// Gestione della pausa quando la pagina non è visibile
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    cancelAnimationFrame(animationId);
+  } else {
+    animate();
+  }
+});
+
+// Gestione immagini mancanti - mostra placeholder se l'immagine non carica
+document.addEventListener('DOMContentLoaded', () => {
+  const images = document.querySelectorAll('img');
+  
+  images.forEach(img => {
+    img.addEventListener('error', function() {
+      // Sostituisci con un placeholder se l'immagine non esiste
+      const parent = this.parentElement;
+      if (parent.classList.contains('photo-box') || parent.classList.contains('logo-placeholder')) {
+        const placeholder = document.createElement('div');
+        placeholder.className = 'image-placeholder';
+        placeholder.innerHTML = `
+          <i class="fas fa-image"></i>
+          <span>Immagine non trovata</span>
+          <small>${this.alt}</small>
+        `;
+        parent.innerHTML = '';
+        parent.appendChild(placeholder);
+      }
+    });
+  });
+  
+  // Anima le skill bars all'apertura della pagina
+  setTimeout(() => {
+    if (document.getElementById('crescita').classList.contains('active')) {
+      const skillLevels = document.querySelectorAll('.skill-level');
+      skillLevels.forEach(level => {
+        const width = level.style.width;
+        level.style.width = '0%';
+        setTimeout(() => {
+          level.style.width = width;
+        }, 100);
+      });
+    }
+  }, 500);
+});
+</script>
+
+</body>
+</html>
